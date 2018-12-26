@@ -1,0 +1,32 @@
+{
+  "pages":[
+    "pages/hot/hot",
+    "pages/new/new"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "backgroundColor": "#FFFFFE",
+    "borderStyle": "#D3D3D3",
+    "selectedColor": "#3c67a2",
+    "color": "#131313",
+    "list": [
+      {
+        "pagePath": "pages/hot/hot",
+        "iconPath": "image/hot.png",
+        "selectedIconPath": "image/hot-hover.png",
+        "text": "What's hot!"
+      },
+      {
+        "pagePath": "pages/new/new",
+        "iconPath": "image/new.png",
+        "selectedIconPath": "image/new-hover.png",
+        "text": "What's new!"
+      }
+    ]
+  }
+}
