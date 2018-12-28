@@ -1,5 +1,13 @@
-<!--index.wxml-->
 <view class="container">
+  <view class="productTypeTabBar">
+    <view class="productTypeTabItem">MEAP</view>
+    <view class="productTypeTabItem">Published</view>
+  </view>
+  <view class="productList">
+    Test
+  </view>
+</view>
+<!--<view class="container">
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>
@@ -10,4 +18,4 @@
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>
-</view>
+</view>-->
