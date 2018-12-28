@@ -1,7 +1,8 @@
 {
   "pages":[
     "pages/hot/hot",
-    "pages/new/new"
+    "pages/new/new",
+    "pages/book/book"
   ],
   "window":{
     "backgroundTextStyle":"light",

@@ -5,6 +5,7 @@ export interface IMyApp {
   globalData: {
     userInfo?: wx.UserInfo,
     bookData?: any
+    bookDataObtained: boolean,
   }
 }
 
@@ -13,3 +14,31 @@ export interface IIDAL {
   getProductList: Function;
 }
 
+export interface IBookData{
+  meaps: any,
+  published: any,
+}
+
+export interface IMEAPs{
+  bestSellerRank: number,
+  chronologicalRank: number,
+  completedChapters: 5,
+  totalChapters: number,
+  coverImage: string,
+  id: number,
+  isMEAP: boolean,
+  linkToMarketplace: string,
+  meapStart: string,
+  title: string,
+}
+
+export interface IPublished{
+  bestSellerRank: number,
+  chronologicalRank: number,
+  coverImage: string,
+  id: number,
+  isMEAP: boolean,
+  linkToMarketplace: string,
+  publishedDate: string,
+  title: string,
+}

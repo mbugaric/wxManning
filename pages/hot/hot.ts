@@ -1,13 +1,27 @@
-//hot.js
-import { IMyApp } from '../../app'
+const hotOrNew = 'hot';
 
-const app = getApp<IMyApp>()
+import { IMyApp } from '../../app';
+import {
+  IBookData,
+  IMEAPs,
+  IPublished
+} from '../../models/models';
+
+import {
+  getSortingFunctionForTab,
+  getMottoForTab
+} from '../../utils/common';
+
+const app = getApp<IMyApp>();
+
 
 Page({
   data: {
-    motto: `What's new!`,
+    motto: getMottoForTab(hotOrNew),
     userInfo: {},
-    bookData: {},
+    bookData: {} as IBookData,
+    sortedMEAPdata: [] as IMEAPs[],
+    sortedPublishedData: {} as IPublished[],
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
@@ -18,25 +32,47 @@ Page({
   onLoad() {
     this.setUserInfoData();
     this.setBookData();
-
-    app.bookDataReadyCallbackNew = (res: any) => {
-      console.log(app.globalData, " what's hot !!!")
-    }
-
   },
 
   setBookData(){
     if (app.globalData.bookData){
-      console.log("hot: bookData already found!")
       this.setData!({
         bookData: app.globalData.bookData,
-      })
+      }, () => { 
+        this.prepareInitialSortedMEAPandPublishedBooks() 
+        })
     } else{
-      console.log("hot: bookData not found!")
       app.bookDataReadyCallback = (res: any) => {
-        console.log("hot: callback!", res)
         this.setData!({
           bookData: res,
+        }, () => { 
+          this.prepareInitialSortedMEAPandPublishedBooks() 
+        })
+      }
+    }
+  },
+
+  onShow: function () {
+    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedMEAPdata", this.data.sortedMEAPdata,"!!!")
+    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedPublishedData", this.data.sortedPublishedData,"!!!")
+  },
+
+  prepareInitialSortedMEAPandPublishedBooks(){
+    if (this.data.bookData){
+      //MEAP data
+      if (this.data.bookData.meaps && this.data.bookData.meaps.length ){
+        const sortingFunction = getSortingFunctionForTab(hotOrNew);
+        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.sort(sortingFunction);
+        this.setData!({
+          sortedMEAPdata: sortedMEAPdata
+        })
+      }
+      //Published data
+      if (this.data.bookData.published && this.data.bookData.published.length) {
+        const sortingFunction = getSortingFunctionForTab(hotOrNew);
+        const sortedPublishedData: IPublished = this.data.bookData.published.sort(sortingFunction);
+        this.setData!({
+          sortedPublishedData: sortedPublishedData
         })
       }
     }

@@ -12,13 +12,13 @@ export default class IDAL {
     this.URLBase = getServerURL();
   }
 
-  public getProductList(): Promise<any> {
+  public getProductList(maxElements?:number): Promise<any> {
     return new Promise((resolve, reject) => {
       const url:string = this.URLBase + '/wx/getProductList';
 
       if (debug) console.log("%cgetProductList ", 'background: #ffbf00; color: black');
       
-      this.sendWxRequest(url).then((res)=>{
+      this.sendWxRequest(url, maxElements).then((res)=>{
         resolve(res);
       }).catch((error)=>{
         reject(error);
@@ -27,12 +27,14 @@ export default class IDAL {
     });
   }
 
-  public sendWxRequest(url:string): Promise<any> {
+  public sendWxRequest(url:string, maxElements?:number): Promise<any> {
     return new Promise((resolve, reject) => {
+
+      const data:object = maxElements ? { maxElements: maxElements} : {};
       wx.request({
         url: url,
-        data: {
-        },
+        data: data,
+        method: 'POST',
         header: {
           'content-type': 'application/json'
         },
