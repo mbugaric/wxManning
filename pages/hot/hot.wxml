@@ -1,10 +1,41 @@
 <view class="container">
+  <view class="topGrayHelper">
+  </view>
   <view class="productTypeTabBar">
-    <view class="productTypeTabItem">MEAP</view>
+    <view class="productTypeTabItem selectedTabItem">MEAP</view>
     <view class="productTypeTabItem">Published</view>
   </view>
   <view class="productList">
-    Test
+    <block wx:for="{{sortedMEAPdata}}" wx:for-item="product" wx:key="key">
+      <view class="productItem">
+        <view class="productItemRank">{{product.bestSellerRank}}</view>
+        <view class="productItemCover">
+          <view class="productItemCoverInner">
+            <image src="{{product.coverImage}}" />
+          </view>
+        </view>
+        <view class="productDetails">
+          <view class="productItemTitleContainer">
+            <view class="productItemTitle">
+                {{product.title}}
+              </view>
+            <view class="meap-flag">
+              <image src="../../image/meap-filled.svg"></image>
+            </view>
+            
+          </view>
+          <view class="MEAPdata">
+            <view class="meap-progress-left"></view>
+            <view class="meap-progress">
+              <block wx:for="{{product.totalChapters}}" wx:for-item="i" wx:key="key">
+                <span class="tick" style="width: {{100/product.totalChapters*i+'%'}}"></span>
+              </block>
+              <view class="progress-bar progress-bar-success" style="width: {{ (product.completedChapters/product.totalChapters)*100+'%'}}"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
   </view>
 </view>
 <!--<view class="container">

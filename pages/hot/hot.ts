@@ -21,7 +21,7 @@ Page({
     userInfo: {},
     bookData: {} as IBookData,
     sortedMEAPdata: [] as IMEAPs[],
-    sortedPublishedData: {} as IPublished[],
+    sortedPublishedData: [] as IPublished[],
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
