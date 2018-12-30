@@ -50,3 +50,11 @@ export function getMottoForTab(tabType: string) {
       return hotMotto;
   }
 }
+
+export function addAuthorIfMissing(product){
+  let author = product.author;
+  if(!author){
+    author = "Unknown Author";
+  }
+  return { ...product, author: author};
+}

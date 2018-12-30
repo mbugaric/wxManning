@@ -9,24 +9,37 @@ import {
 
 import {
   getSortingFunctionForTab,
-  getMottoForTab
+  getMottoForTab,
+  addAuthorIfMissing,
 } from '../../utils/common';
 
 const app = getApp<IMyApp>();
 
-
 Page({
   data: {
-    motto: getMottoForTab(hotOrNew),
+    motto: getMottoForTab(hotOrNew) as string,
     userInfo: {},
     bookData: {} as IBookData,
     sortedMEAPdata: [] as IMEAPs[],
     sortedPublishedData: [] as IPublished[],
-    hasUserInfo: false,
+    hasUserInfo: false as boolean,
+    currentTab: 0 as number,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
+
   bindViewTap() {
     console.log(app.globalData)
+  },
+
+  selectTab(event: any) {
+    if (event && event.currentTarget && event.currentTarget.dataset) {
+      const newTab = Number(event.currentTarget.dataset.tab);
+      if(!isNaN(newTab) && newTab != this.data.currentTab){
+        this.setData!({
+          currentTab: newTab,
+        })
+      }
+    }
   },
 
   onLoad() {
@@ -34,35 +47,35 @@ Page({
     this.setBookData();
   },
 
-  setBookData(){
-    if (app.globalData.bookData){
+  setBookData() {
+    if (app.globalData.bookData) {
       this.setData!({
         bookData: app.globalData.bookData,
-      }, () => { 
-        this.prepareInitialSortedMEAPandPublishedBooks() 
-        })
-    } else{
+      }, () => {
+        this.prepareInitialSortedMEAPandPublishedBooks()
+      })
+    } else {
       app.bookDataReadyCallback = (res: any) => {
         this.setData!({
           bookData: res,
-        }, () => { 
-          this.prepareInitialSortedMEAPandPublishedBooks() 
+        }, () => {
+          this.prepareInitialSortedMEAPandPublishedBooks()
         })
       }
     }
   },
 
   onShow: function () {
-    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedMEAPdata", this.data.sortedMEAPdata,"!!!")
-    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedPublishedData", this.data.sortedPublishedData,"!!!")
+    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedMEAPdata", this.data.sortedMEAPdata, "!!!")
+    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedPublishedData", this.data.sortedPublishedData, "!!!")
   },
 
-  prepareInitialSortedMEAPandPublishedBooks(){
-    if (this.data.bookData){
+  prepareInitialSortedMEAPandPublishedBooks() {
+    if (this.data.bookData) {
       //MEAP data
-      if (this.data.bookData.meaps && this.data.bookData.meaps.length ){
+      if (this.data.bookData.meaps && this.data.bookData.meaps.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
-        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.sort(sortingFunction);
+        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.map((it: any) => addAuthorIfMissing(it)).sort(sortingFunction);
         this.setData!({
           sortedMEAPdata: sortedMEAPdata
         })
@@ -70,7 +83,7 @@ Page({
       //Published data
       if (this.data.bookData.published && this.data.bookData.published.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
-        const sortedPublishedData: IPublished = this.data.bookData.published.sort(sortingFunction);
+        const sortedPublishedData: IPublished = this.data.bookData.published.map((it: any) => addAuthorIfMissing(it)).sort(sortingFunction);
         this.setData!({
           sortedPublishedData: sortedPublishedData
         })
@@ -78,8 +91,7 @@ Page({
     }
   },
 
-
-  setUserInfoData(){
+  setUserInfoData() {
     if (app.globalData.userInfo) {
       this.setData!({
         userInfo: app.globalData.userInfo,

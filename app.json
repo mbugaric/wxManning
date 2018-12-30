@@ -18,14 +18,14 @@
     "list": [
       {
         "pagePath": "pages/hot/hot",
-        "iconPath": "image/hot.png",
-        "selectedIconPath": "image/hot-hover.png",
+        "iconPath": "images/hot.png",
+        "selectedIconPath": "images/hot-hover.png",
         "text": "What's hot!"
       },
       {
         "pagePath": "pages/new/new",
-        "iconPath": "image/new.png",
-        "selectedIconPath": "image/new-hover.png",
+        "iconPath": "images/new.png",
+        "selectedIconPath": "images/new-hover.png",
         "text": "What's new!"
       }
     ]

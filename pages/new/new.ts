@@ -9,24 +9,37 @@ import {
 
 import {
   getSortingFunctionForTab,
-  getMottoForTab
+  getMottoForTab,
+  addAuthorIfMissing,
 } from '../../utils/common';
 
 const app = getApp<IMyApp>();
 
-
 Page({
   data: {
-    motto: getMottoForTab(hotOrNew),
+    motto: getMottoForTab(hotOrNew) as string,
     userInfo: {},
     bookData: {} as IBookData,
     sortedMEAPdata: [] as IMEAPs[],
-    sortedPublishedData: {} as IPublished[],
-    hasUserInfo: false,
+    sortedPublishedData: [] as IPublished[],
+    hasUserInfo: false as boolean,
+    currentTab: 0 as number,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
+
   bindViewTap() {
     console.log(app.globalData)
+  },
+
+  selectTab(event: any) {
+    if (event && event.currentTarget && event.currentTarget.dataset) {
+      const newTab = Number(event.currentTarget.dataset.tab);
+      if(!isNaN(newTab) && newTab != this.data.currentTab){
+        this.setData!({
+          currentTab: newTab,
+        })
+      }
+    }
   },
 
   onLoad() {
@@ -62,7 +75,7 @@ Page({
       //MEAP data
       if (this.data.bookData.meaps && this.data.bookData.meaps.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
-        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.sort(sortingFunction);
+        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.map((it: any) => addAuthorIfMissing(it)).sort(sortingFunction);
         this.setData!({
           sortedMEAPdata: sortedMEAPdata
         })
@@ -70,14 +83,13 @@ Page({
       //Published data
       if (this.data.bookData.published && this.data.bookData.published.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
-        const sortedPublishedData: IPublished = this.data.bookData.published.sort(sortingFunction);
+        const sortedPublishedData: IPublished = this.data.bookData.published.map((it: any) => addAuthorIfMissing(it)).sort(sortingFunction);
         this.setData!({
           sortedPublishedData: sortedPublishedData
         })
       }
     }
   },
-
 
   setUserInfoData() {
     if (app.globalData.userInfo) {
