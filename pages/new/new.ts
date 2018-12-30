@@ -18,6 +18,7 @@ const app = getApp<IMyApp>();
 Page({
   data: {
     motto: getMottoForTab(hotOrNew) as string,
+    bookDataObtained: false as boolean,
     userInfo: {},
     bookData: {} as IBookData,
     sortedMEAPdata: [] as IMEAPs[],
@@ -34,9 +35,11 @@ Page({
   selectTab(event: any) {
     if (event && event.currentTarget && event.currentTarget.dataset) {
       const newTab = Number(event.currentTarget.dataset.tab);
-      if(!isNaN(newTab) && newTab != this.data.currentTab){
+      if (!isNaN(newTab) && newTab != this.data.currentTab) {
         this.setData!({
           currentTab: newTab,
+        }, () => {
+          app.globalData.currentTab = newTab;
         })
       }
     }
@@ -51,6 +54,7 @@ Page({
     if (app.globalData.bookData) {
       this.setData!({
         bookData: app.globalData.bookData,
+        bookDataObtained: true,
       }, () => {
         this.prepareInitialSortedMEAPandPublishedBooks()
       })
@@ -58,6 +62,7 @@ Page({
       app.bookDataReadyCallback = (res: any) => {
         this.setData!({
           bookData: res,
+          bookDataObtained: true,
         }, () => {
           this.prepareInitialSortedMEAPandPublishedBooks()
         })
@@ -66,8 +71,11 @@ Page({
   },
 
   onShow: function () {
-    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedMEAPdata", this.data.sortedMEAPdata, "!!!")
-    console.log(hotOrNew, app.globalData.bookDataObtained, "sortedPublishedData", this.data.sortedPublishedData, "!!!")
+    if (app.globalData.currentTab !== this.data.currentTab && !isNaN(app.globalData.currentTab)) {
+      this.setData!({
+        currentTab: app.globalData.currentTab,
+      })
+    }
   },
 
   prepareInitialSortedMEAPandPublishedBooks() {
