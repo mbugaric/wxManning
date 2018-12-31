@@ -26,9 +26,14 @@
                 {{product.author}}
               </view>
             </view>
-            <view class="productItemCommingSoonContainer" wx:if="{{currentTab===0}}">
-              <view class="productItemCommingSoon">
+            <view class="productItemComingSoonContainer" wx:if="{{currentTab===0}}">
+              <view class="productItemComingSoon">
                 Coming January 2020
+              </view>
+            </view>
+            <view class="productItemPublishedDateContainer" wx:else>
+              <view class="productItemPublishedDate">
+                Published: {{product.publishedDateString}}
               </view>
             </view>
           </view>

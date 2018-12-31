@@ -58,3 +58,31 @@ export function addAuthorIfMissing(product){
   }
   return { ...product, author: author};
 }
+
+export function addDates(product:any) {
+  let newProduct = product; 
+  if (product.publishedDate){
+    const pubDate = new Date(product.publishedDate);
+    let dateString: string = getMonth(pubDate) + " " + pubDate.getFullYear();
+    newProduct = { ...newProduct, publishedDateString: dateString};
+  }
+  
+  return newProduct;
+}
+
+export function getMonth(d:Date){
+  var month = new Array();
+  month[0] = "January";
+  month[1] = "February";
+  month[2] = "March";
+  month[3] = "April";
+  month[4] = "May";
+  month[5] = "June";
+  month[6] = "July";
+  month[7] = "August";
+  month[8] = "September";
+  month[9] = "October";
+  month[10] = "November";
+  month[11] = "December";
+  return month[d.getMonth()];
+}

@@ -128,7 +128,8 @@
   margin-top: 6rpx;
 }
 
-.productDetails .productItemCommingSoon {
+.productDetails .productItemComingSoon,
+.productDetails .productItemPublishedDate {
   font-family: 'Lato';
   font-size: 24rpx;
   color: #777;
@@ -136,7 +137,7 @@
 }
 
 .productItemTitleContainer, .productItemAuthorContainer,
-.productItemCommingSoonContainer {
+.productItemComingSoonContainer, .productItemPublishedDateContainer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
