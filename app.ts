@@ -35,8 +35,9 @@ App<IMyApp>({
       }
     })
     this.idal = new IDAL();
-    this.idal.getProductList(10).then((res:any)=>{
+    this.idal.getProductList(100).then((res:any)=>{
       if(res.data && res.statusCode === 200) {
+        this.globalData.bookDataObtained = true;
         this.globalData.bookData = res.data;
         if (this.bookDataReadyCallback) {
           this.bookDataReadyCallback(res.data)

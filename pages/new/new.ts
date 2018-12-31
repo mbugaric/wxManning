@@ -16,7 +16,10 @@ import {
 const app = getApp<IMyApp>();
 
 Page({
+  initialBookDataObtained: false,
+
   data: {
+    isHot: hotOrNew === 'hot' ? true : false,
     motto: getMottoForTab(hotOrNew) as string,
     bookDataObtained: false as boolean,
     userInfo: {},
@@ -71,6 +74,12 @@ Page({
   },
 
   onShow: function () {
+    //If data was obtained outside hot tab, we have to check for it
+    if (!this.initialBookDataObtained && app.globalData.bookDataObtained) {
+      this.setBookData();
+    }
+
+    //Remember MEAP/Published when tab is changed
     if (app.globalData.currentTab !== this.data.currentTab && !isNaN(app.globalData.currentTab)) {
       this.setData!({
         currentTab: app.globalData.currentTab,
@@ -80,6 +89,8 @@ Page({
 
   prepareInitialSortedMEAPandPublishedBooks() {
     if (this.data.bookData) {
+      this.initialBookDataObtained = true;
+
       //MEAP data
       if (this.data.bookData.meaps && this.data.bookData.meaps.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
