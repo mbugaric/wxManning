@@ -23,17 +23,17 @@
             </view>
             <view class="productItemAuthorContainer">
               <view class="productItemAuthor">
-                {{product.author}}
+                {{product.authorshipDisplay}}
               </view>
             </view>
             <view class="productItemComingSoonContainer" wx:if="{{currentTab===0}}">
               <view class="productItemComingSoon">
-                Coming January 2020
+                Coming {{product.displayDateString}}
               </view>
             </view>
             <view class="productItemPublishedDateContainer" wx:else>
               <view class="productItemPublishedDate">
-                Published: {{product.publishedDateString}}
+                Published: {{product.displayDateString}}
               </view>
             </view>
           </view>
@@ -62,6 +62,7 @@
     </block>
   </view>
   <view class="loader" wx:if="{{!bookDataObtained}}"></view>
+  <view id="helper"></view>
 </view>
 <!--<view class="container">
   <view class="userinfo">

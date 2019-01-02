@@ -1,6 +1,7 @@
 import {
   IMEAPs
-} from '../models/models'
+} from '../models/models';
+
 export function getServerURL() {
 
   const toniDev = 'http://lvdeo.ddns.net:8080/';
@@ -51,20 +52,30 @@ export function getMottoForTab(tabType: string) {
   }
 }
 
-export function addAuthorIfMissing(product){
-  let author = product.author;
-  if(!author){
-    author = "Unknown Author";
+export function fixData(product){
+  //Author
+  let authorshipDisplay = product.authorshipDisplay;
+  if (!authorshipDisplay){
+    authorshipDisplay = "Unknown Author";
   }
-  return { ...product, author: author};
+  authorshipDisplay = decodeEntities(authorshipDisplay.replace(/<(?:.|\n)*?>/gm, ' '));
+
+  //Title
+  let title = decodeEntities(product.title.replace(/<(?:.|\n)*?>/gm, ' '));
+
+  return { 
+    ...product, 
+    authorshipDisplay: authorshipDisplay,
+    title: title,
+  };
 }
 
 export function addDates(product:any) {
   let newProduct = product; 
-  if (product.publishedDate){
-    const pubDate = new Date(product.publishedDate);
+  if (product.displayDate){
+    const pubDate = new Date(product.displayDate);
     let dateString: string = getMonth(pubDate) + " " + pubDate.getFullYear();
-    newProduct = { ...newProduct, publishedDateString: dateString};
+    newProduct = { ...newProduct, displayDateString: dateString};
   }
   
   return newProduct;
@@ -85,4 +96,21 @@ export function getMonth(d:Date){
   month[10] = "November";
   month[11] = "December";
   return month[d.getMonth()];
+}
+
+export function decodeEntities(encodedString:string) {
+    var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+    var translate:any = {
+        "nbsp":" ",
+        "amp" : "&",
+        "quot": "\"",
+        "lt"  : "<",
+        "gt"  : ">"
+    };
+    return encodedString.replace(translate_re, function(match, entity:any) {
+        return translate[entity];
+    }).replace(/&#(\d+);/gi, function(match, numStr) {
+        var num = parseInt(numStr, 10);
+        return String.fromCharCode(num);
+    });
 }

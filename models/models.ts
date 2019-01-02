@@ -20,6 +20,7 @@ export interface IBookData{
 }
 
 export interface IMEAPs{
+  authorshipDisplay: string,
   bestSellerRank: number,
   chronologicalRank: number,
   completedChapters: 5,
@@ -30,15 +31,18 @@ export interface IMEAPs{
   linkToMarketplace: string,
   meapStart: string,
   title: string,
+  displayDate: string,
+  updatedWithinTheLastTwoWeeks: boolean,
 }
 
 export interface IPublished{
+  authorshipDisplay: string,
   bestSellerRank: number,
   chronologicalRank: number,
   coverImage: string,
   id: number,
   isMEAP: boolean,
   linkToMarketplace: string,
-  publishedDate: string,
   title: string,
+  displayDate: string,
 }

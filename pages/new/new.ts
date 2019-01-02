@@ -10,7 +10,7 @@ import {
 import {
   getSortingFunctionForTab,
   getMottoForTab,
-  addAuthorIfMissing,
+  fixData,
   addDates,
 } from '../../utils/common';
 
@@ -95,7 +95,7 @@ Page({
       //MEAP data
       if (this.data.bookData.meaps && this.data.bookData.meaps.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
-        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.map((it: any) => addAuthorIfMissing(it)).map((it: any) => addDates(it)).sort(sortingFunction);
+        const sortedMEAPdata: IMEAPs = this.data.bookData.meaps.map((it: any) => fixData(it)).map((it: any) => addDates(it)).sort(sortingFunction);
         this.setData!({
           sortedMEAPdata: sortedMEAPdata
         })
@@ -103,7 +103,7 @@ Page({
       //Published data
       if (this.data.bookData.published && this.data.bookData.published.length) {
         const sortingFunction = getSortingFunctionForTab(hotOrNew);
-        const sortedPublishedData: IPublished = this.data.bookData.published.map((it: any) => addAuthorIfMissing(it)).map((it: any) => addDates(it)).sort(sortingFunction);
+        const sortedPublishedData: IPublished = this.data.bookData.published.map((it: any) => fixData(it)).map((it: any) => addDates(it)).sort(sortingFunction);
         this.setData!({
           sortedPublishedData: sortedPublishedData
         })
